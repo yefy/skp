@@ -1,0 +1,36 @@
+syntax = "proto3";
+package MemoryFile;
+message MemoryFileMD5 {
+    bytes md5 = 1;
+}
+
+// 枚举类型
+enum FileDataStatus {
+    FileDataStatusNull = 0;
+    FileDataStatusPushing = 1;
+    FileDataStatusFinish = 2;
+}
+
+message MemoryFileData {
+    bytes md5 = 1;
+    bytes name = 2;
+    uint64 lenth = 3;
+    uint64 offset = 4;
+    uint32 status = 5;
+    bytes buffer = 6;
+    uint64 friend = 7;
+}
+
+message MemoryFileDataList {
+    repeated MemoryFileData file_data = 1;
+}
+
+message MemoryFileToFriend {
+    bytes md5 = 1;
+    bytes name = 2;
+    uint64 lenth = 3;
+    uint64 friend = 4;
+}
+
+
+

@@ -1,0 +1,188 @@
+#!/bin/bash
+skp_path=`pwd`
+skp_lib_path=$skp_path/lib
+skp_objs_path=$skp_path/objs
+skp_3rdparty_path=$skp_path/3rdparty
+
+echo -e $skp_path
+echo -e $skp_lib_path
+echo -e $skp_objs_path
+echo -e $skp_3rdparty_path
+
+if [ ! -d $skp_lib_path/redis ]; then
+	echo -e "install redis"
+	rm -fr $skp_objs_path/redis-3.0-annotated
+	cp -R $skp_3rdparty_path/redis-3.0-annotated $skp_objs_path
+ 	cd $skp_objs_path/redis-3.0-annotated
+	make
+	mkdir -p $skp_lib_path/redis
+	mkdir -p $skp_lib_path/redis/bin
+	mkdir -p $skp_lib_path/redis/conf
+	mkdir -p $skp_lib_path/redis/script
+	cp redis.conf $skp_lib_path/redis/conf/redis_6379.conf
+	cp ./utils/redis_init_script $skp_lib_path/redis/script/redis
+	cd $skp_objs_path/redis-3.0-annotated/src
+	cp redis-server redis-cli redis-benchmark redis-check-aof redis-check-dump redis-sentinel $skp_lib_path/redis/bin
+	
+	#vim 6379.conf
+	#daemonize yes
+	#pidfile /home/yefy/super/skp/super-knowledge-platform/skpServer/trunk/lib/redis/redis_6379.pid
+	#vim redis
+	#chkconfig: 2345 80 90   
+	#EXEC=/usr/local/redis/bin/redis-server   
+	#CLIEXEC=/usr/local/redis/bin/redis-cli   
+	#CONF="/etc/redis/${REDISPORT}.conf"  
+	#$EXEC $CONF &  
+	#cp redis /etc/rc.d/init.d/redis
+	#chkconfig --add redis
+	#service redis start
+	#vi /etc/profile
+	#export PATH="$PATH:/usr/local/redis/bin"
+else
+	echo -e "exist redis"
+fi 
+
+cd $skp_path 
+
+if [ ! -d $skp_lib_path/hiredis ]; then
+        echo -e "install hiredis"
+        rm -fr $skp_objs_path/hiredis
+        cp -R $skp_3rdparty_path/hiredis $skp_objs_path
+        cd $skp_objs_path/hiredis
+        make
+	mkdir -p $skp_lib_path/hiredis
+	mkdir -p $skp_lib_path/hiredis/include
+	mkdir -p $skp_lib_path/hiredis/lib
+	cp *.so *.a $skp_lib_path/hiredis/lib
+	cp *.h $skp_lib_path/hiredis/include
+else
+        echo -e "exist hiredis"
+fi
+
+cd $skp_path
+
+if [ ! -d $skp_lib_path/protobuf ]; then
+        echo -e "install protobuf"
+        rm -fr $skp_objs_path/protobuf
+        cp -R $skp_3rdparty_path/protobuf $skp_objs_path
+        cd $skp_objs_path/protobuf
+	./autogen.sh
+	./configure --prefix=$skp_lib_path/protobuf
+        make
+	#make check
+	make install
+else
+        echo -e "exist protobuf"
+fi
+
+
+cd $skp_path
+
+if [ ! -d $skp_lib_path/libmemcached ]; then
+        echo -e "install libmemcached"
+        rm -fr $skp_objs_path/libmemcached-1.0.17
+	tar -xvf $skp_3rdparty_path/libmemcached-1.0.17.tar.gz -C $skp_objs_path
+        cd $skp_objs_path/libmemcached-1.0.17
+        ./configure --prefix=$skp_lib_path/libmemcached
+        make
+        make install
+else
+        echo -e "exist libmemcached"
+fi
+
+
+cd $skp_path
+
+if [ ! -d $skp_lib_path/libevent ]; then
+        echo -e "install libevent"
+        rm -fr $skp_objs_path/libevent-2.0.21-stable
+        tar -xvf $skp_3rdparty_path/libevent-2.0.21-stable.tar.gz -C $skp_objs_path
+        cd $skp_objs_path/libevent-2.0.21-stable
+        ./configure --prefix=$skp_lib_path/libevent
+        make
+        make install
+else
+        echo -e "exist libevent"
+fi
+
+cd $skp_path
+
+if [ ! -d $skp_lib_path/memcached ]; then
+        echo -e "install memcached"
+        rm -fr $skp_objs_path/memcached-1.4.22
+        tar -xvf $skp_3rdparty_path/memcached-1.4.22.tar.gz -C $skp_objs_path
+        cd $skp_objs_path/memcached-1.4.22
+        ./configure --prefix=$skp_lib_path/memcached -with-libevent=$skp_lib_path/libevent
+        make
+        make install
+else
+        echo -e "exist memcached"
+fi
+
+
+
+cd $skp_path
+
+if [ ! -d $skp_lib_path/gmock ]; then
+        echo -e "install gmock"
+        cd $skp_objs_path/protobuf/gmock
+	mkdir -p build
+	cd build
+	cmake ..
+	make
+	mkdir -p $skp_lib_path/gmock/lib
+	mkdir -p $skp_lib_path/gmock/gtest
+	mkdir -p $skp_lib_path/gmock/gtest/lib
+	cp *.a $skp_lib_path/gmock/lib
+	cp gtest/*.a $skp_lib_path/gmock/gtest/lib
+	cd ..
+	cp -R include $skp_lib_path/gmock
+	cp -R gtest/include $skp_lib_path/gmock/gtest
+else
+        echo -e "exist gmock"
+fi
+
+
+cd $skp_path
+
+if [ ! -d $skp_lib_path/gprof ]; then
+        echo -e "install gprof"
+        rm -fr $skp_objs_path/gprof
+        cp -R $skp_3rdparty_path/gprof $skp_objs_path
+        cd $skp_objs_path/gprof
+	unzip -q graphviz-2.36.0.zip
+	cd graphviz-2.36.0
+	./configure  
+	make  
+	sudo make install
+	cd ..
+        mkdir -p $skp_lib_path/gprof
+        cp *.sh *.py $skp_lib_path/gprof
+else
+        echo -e "exist gprof"
+fi
+
+
+
+
+cd $skp_path
+
+if [ ! -d $skp_lib_path/gperftools ]; then
+        echo -e "install gperftools"
+        rm -fr $skp_objs_path/gperftools-2.1
+	cd $skp_objs_path
+	unzip -q $skp_3rdparty_path/gperftools-2.1.zip
+        cd $skp_objs_path/gperftools-2.1
+        ./configure --prefix=$skp_lib_path/gperftools --enable-frame-pointers
+        make
+        make install
+else
+        echo -e "exist gperftools"
+fi
+
+
+
+
+
+cd ./ide/makefile
+./configure

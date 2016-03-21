@@ -1,0 +1,58 @@
+#ifndef SKP_LOCAL_MANAGE_H
+#define SKP_LOCAL_MANAGE_H
+
+#include "skpObject.h"
+
+class SkpLocalSocketTcp;
+class SkpEventChan;
+class SkpLocalProtocal;
+class SkpMallocPoolEx;
+class SkpList;
+
+typedef struct SkpParseData_s SkpParseData_t;
+struct SkpParseData_s {
+    SkpLocalSocketTcp *socketTcp;
+    uint R;
+};
+#define PARSE_DATA_LEN sizeof(SkpParseData_t)
+
+class SkpLocalManage : public SkpObject
+{
+public:
+
+    static void SkpInit();
+    static void destroy();
+    static SkpLocalManage *SkpInstanceSuper(uint64 serverID , uint tcpSocketIndex);
+    static SkpLocalManage *SkpInstanceRoute(uint64 serverID , uint tcpSocketIndex);
+
+    static std::vector<SkpLocalManage *> m_localSuperManages;
+    static std::vector<SkpLocalManage *> m_localRouteManages;
+    static std::vector<SkpThread *> m_localSuperThreads;
+    static std::vector<SkpThread *> m_localRouteThreads;
+    ~SkpLocalManage();
+
+
+    int m_index;
+
+    uchar m_serverType;
+    uint m_serverID;
+
+    uint m_routeServerID ;
+    std::string m_routeServerIP ;
+
+    std::map<uint64, SkpList *> socketMap;
+    SkpMallocPoolEx *m_poolEx;
+
+    SkpEventChan *m_addMapEventChan;
+
+    std::map<uint64, SkpLocalProtocal *> m_protocaltMap;
+
+    bool parseChan(void *head, int headSize, void *data, int dataSize);
+    bool onParseChan(void *head, int headSize, void *data, int dataSize);
+
+
+private:
+    SkpLocalManage(int index, SkpThread &thread);
+};
+
+#endif // SKP_LOCAL_MANAGE_H

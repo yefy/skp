@@ -1,0 +1,79 @@
+#!/bin/bash
+
+target="skpServer"
+include_dirs="-I../../src/local -I../../src/3rdparty -I../../src/core -I../../src/utility -I../../src/network -I../../../../public -I/usr/local/mysql/include -I../../lib/libmemcached/include -I../../../../public/protocol-buf -I../../lib/hiredis/include -I../../lib/protobuf/include"
+
+source_dirs="../../src/3rdparty ../../src/core ../../src/network ../../src/local ../../src/utility ../../../../public ../../../../public/protocol-buf"
+
+static_libs="../../lib/libmemcached/lib/libmemcached.a ../../lib/protobuf/lib/libprotobuf.a ../../lib/hiredis/lib/libhiredis.a /usr/local/mysql/lib/libmysqlclient.a /usr/lib/libz.a"
+
+lib_dirs=""
+
+libs="-lpthread -lrt -lsasl2"
+cxx="g++"
+cxxflags="-pipe -g -Wall -W -fPIE -std=c++11"
+mflags="-std=c++11"
+tflags="-fno-builtin-malloc -fno-builtin-calloc -fno-builtin-realloc -fno-builtin-free -ansi"
+
+
+> Makefile
+echo -e "target="$target >> Makefile
+echo -e "include_dirs="$include_dirs >> Makefile
+echo -e "source_dirs="$source_dirs >> Makefile
+echo -e "static_libs="$static_libs >> Makefile
+echo -e "lib_dirs="$lib_dirs >> Makefile
+echo -e "libs="$libs >> Makefile
+echo -e "cxx="$cxx >> Makefile
+echo -e "cxxflags="$cxxflags >> Makefile
+echo -e "tflags="$tflags >> Makefile
+
+srcs=""
+srcs_=""
+source_dirs=$(echo $source_dirs|tr " " "\n")
+for source_dir in $source_dirs
+do
+	if [ "$source_dir" != "" ]
+	then
+		for line in $(ls $source_dir)
+		do
+			case "$line" in
+	        	*.cpp)
+        		srcs=$srcs" "${line}
+        		;;
+	        	*.cc)
+        		srcs_=$srcs_" "${line}
+        		;;
+		 	esac
+		done
+	else
+		break
+	fi
+done
+
+objs=${srcs//.cpp/.o}
+objs=$objs" "${srcs_//.cc/.o}
+echo -e "objs="$objs >> Makefile
+
+echo -e "all:\$(target)" >> Makefile
+echo -e "\$(target):\$(objs)" >> Makefile
+echo -e  "\t\$(cxx) \$(tflags) -o \$@ \$^ \$(static_libs) \$(lib_dirs) \$(libs)" >> Makefile
+
+
+for source_dir in $source_dirs
+do
+	for line in $(ls $source_dir)
+	do
+	 path=$source_dir/$line
+	 case "$line" in
+        	*.cpp|*.cc)
+		g++ -c -MM $include_dirs $path $mflags >> Makefile
+        	echo -e "\t\$(cxx) -o \$@ -c \$< \$(include_dirs) \$(cxxflags)" >> Makefile
+        	srcs=$srcs" "${line}
+        	;;
+	 	esac
+	done
+done
+
+
+echo -e "clean:" >> Makefile
+echo -e "\trm \$(objs) \$(target)" >> Makefile

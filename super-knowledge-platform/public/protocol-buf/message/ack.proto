@@ -1,0 +1,13 @@
+syntax = "proto3";
+package Ack;
+
+message MessageAck {
+    uint32 class = 1;
+    uint64 friend = 2;
+    uint32 passage = 3;
+    uint64 from = 4;
+}
+
+message MessageAckList {
+    repeated MessageAck ack = 1;
+}
