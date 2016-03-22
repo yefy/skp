@@ -12,7 +12,7 @@ echo -e $skp_3rdparty_path
 if [ ! -d $skp_lib_path/redis ]; then
 	echo -e "install redis"
 	rm -fr $skp_objs_path/redis-3.0-annotated
-	cp -R $skp_3rdparty_path/redis-3.0-annotated $skp_objs_path
+	tar -zxvf $skp_3rdparty_path/redis-3.0-annotated.tar.gz -C $skp_objs_path
  	cd $skp_objs_path/redis-3.0-annotated
 	make
 	mkdir -p $skp_lib_path/redis
@@ -47,7 +47,7 @@ cd $skp_path
 if [ ! -d $skp_lib_path/hiredis ]; then
         echo -e "install hiredis"
         rm -fr $skp_objs_path/hiredis
-        cp -R $skp_3rdparty_path/hiredis $skp_objs_path
+        tar -zxvf $skp_3rdparty_path/hiredis.tar.gz -C $skp_objs_path
         cd $skp_objs_path/hiredis
         make
 	mkdir -p $skp_lib_path/hiredis
@@ -64,7 +64,7 @@ cd $skp_path
 if [ ! -d $skp_lib_path/protobuf ]; then
         echo -e "install protobuf"
         rm -fr $skp_objs_path/protobuf
-        cp -R $skp_3rdparty_path/protobuf $skp_objs_path
+        tar -zxvf $skp_3rdparty_path/protobuf.tar.gz -C $skp_objs_path
         cd $skp_objs_path/protobuf
 	./autogen.sh
 	./configure --prefix=$skp_lib_path/protobuf
@@ -148,7 +148,7 @@ cd $skp_path
 if [ ! -d $skp_lib_path/gprof ]; then
         echo -e "install gprof"
         rm -fr $skp_objs_path/gprof
-        cp -R $skp_3rdparty_path/gprof $skp_objs_path
+        tar -zxvf $skp_3rdparty_path/gprof.tar.gz -C $skp_objs_path
         cd $skp_objs_path/gprof
 	unzip -q graphviz-2.36.0.zip
 	cd graphviz-2.36.0
