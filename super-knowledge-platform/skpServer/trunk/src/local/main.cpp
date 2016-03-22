@@ -1,8 +1,8 @@
 #include "skp_local_application.h"
 #include "skpLog.h"
 #include "gmock/gmock.h"
-//#include <gperftools/profiler.h>
-//#include <gperftools/heap-profiler.h>
+#include <gperftools/profiler.h>
+#include <gperftools/heap-profiler.h>
 
 SkpLog *g_log = skp_null;
 
