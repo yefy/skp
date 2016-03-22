@@ -15,6 +15,10 @@ CONFIG -= app_bundle
 CONFIG -= qt
 DESTDIR += ./bin
 
+#git add -u .
+#git commit -m "updata"
+#git push
+
 
 #cd /home/yefy/skp/super-knowledge-platform/skp_server/trunk/objs/memcached-1.4.22/
 #memcached -d -m 10 -p 11211 -u nobody
