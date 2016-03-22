@@ -1,11 +1,11 @@
 #!/bin/bash
 
 target="skpServer"
-include_dirs="-I../../src/local -I../../src/3rdparty -I../../src/core -I../../src/utility -I../../src/network -I../../../../public -I/usr/local/mysql/include -I../../lib/libmemcached/include -I../../../../public/protocol-buf -I../../lib/hiredis/include -I../../lib/protobuf/include"
+include_dirs="-I../../src/local -I../../src/3rdparty -I../../src/core -I../../src/utility -I../../src/network -I../../../../public -I/usr/local/mysql/include -I../../lib/libmemcached/include -I../../../../public/protocol-buf -I../../lib/hiredis/include -I../../lib/protobuf/include -I../../lib/gmock/include -I../../lib/gmock/gtest/include -I../../lib/gperftools/include"
 
 source_dirs="../../src/3rdparty ../../src/core ../../src/network ../../src/local ../../src/utility ../../../../public ../../../../public/protocol-buf"
 
-static_libs="../../lib/libmemcached/lib/libmemcached.a ../../lib/protobuf/lib/libprotobuf.a ../../lib/hiredis/lib/libhiredis.a /usr/local/mysql/lib/libmysqlclient.a /usr/lib/libz.a"
+static_libs="../../lib/libmemcached/lib/libmemcached.a ../../lib/protobuf/lib/libprotobuf.a ../../lib/hiredis/lib/libhiredis.a /usr/local/mysql/lib/libmysqlclient.a /usr/lib/libz.a ../../lib/gperftools/lib/libtcmalloc_and_profiler.a ../../lib/gmock/lib/libgmock.a ../../lib/gmock/gtest/lib/libgtest.a"
 
 lib_dirs=""
 

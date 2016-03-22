@@ -206,5 +206,7 @@ fi
 
 cd $skp_path
 
+echo -e "create MakeFile"
+
 cd ./ide/makefile
 ./configure
