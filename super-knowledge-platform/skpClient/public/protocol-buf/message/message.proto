@@ -1,0 +1,41 @@
+syntax = "proto3";
+package Message;
+
+message MessageChat {
+    bytes data = 1;
+    uint64 receiver = 2;
+}
+
+message MessageRequestRange {
+    int64 start = 1;
+    int64 end = 2;
+    int32 length = 3;
+}
+message MessageRequest {
+    uint32 class = 1;
+    uint64 friend = 2;
+    uint32 passage = 3;
+    repeated int64 index = 4;
+    repeated MessageRequestRange index_range = 5;
+}
+
+message MessageData {
+    int64 index = 1;
+    int64 real_index = 2;
+    int64 time = 3;
+    uint32 class = 4;
+    uint32 type = 5;
+    uint64 sender = 6;
+    uint64 receiver = 7;
+    uint64 friend = 8;
+    int64 master_index = 9;
+    bytes data_1 = 10;
+    bytes data_2 = 11;
+    bytes data_3 = 12;
+    bytes data_4 = 13;
+}
+
+message MessageDataList {
+    repeated MessageData data = 1;
+}
+

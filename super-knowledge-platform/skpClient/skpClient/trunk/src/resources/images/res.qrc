@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>skin_button.png</file>
+        <file>sys_button_close.png</file>
+        <file>sys_button_min.png</file>
+        <file>sys_button_restore.png</file>
+        <file>ble_live.png</file>
+        <file>add.png</file>
+        <file>skinHistoryImage.png</file>
+        <file>close.png</file>
+        <file>logo.png</file>
+    </qresource>
+</RCC>

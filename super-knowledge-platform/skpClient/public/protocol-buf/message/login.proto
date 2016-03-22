@@ -1,0 +1,13 @@
+syntax = "proto3";
+package Login;
+
+// 枚举类型
+enum LoginType {
+    LoginTypeCode = 0;
+    LoginTypePhone = 1;
+}
+message Login {
+    uint32 login_type = 1;
+    uint64 user = 2;
+    bytes password = 3;
+}

@@ -1,0 +1,12 @@
+syntax = "proto3";
+package Friend;
+
+message Friend {
+    uint64 friend = 1;
+    bytes name = 2;
+    bytes password = 3;
+}
+
+message FriendList {
+    repeated Friend friend = 1;
+}
