@@ -181,8 +181,30 @@ else
 fi
 
 
+cd $skp_path
+
+if [ ! -d $skp_lib_path/rapidjson ]; then
+        echo -e "install rapidjson"
+        rm -fr $skp_objs_path/rapidjson
+        cd $skp_objs_path
+        unzip -q $skp_3rdparty_path/rapidjson.zip
+        cd $skp_objs_path/rapidjson
+	mkdir -p build
+	cd build
+	cmake ..
+        make
+	cd ..
+	mkdir -p $skp_lib_path/rapidjson
+	cp -R include $skp_lib_path/rapidjson/
+else
+        echo -e "exist rapidjson"
+fi
 
 
+
+
+
+cd $skp_path
 
 cd ./ide/makefile
 ./configure
