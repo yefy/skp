@@ -1,0 +1,7 @@
+gcc -g -lc_p -c test.c -o test.o
+
+gcc -pg -o test test.o
+
+rm -f gmon.out; ./test
+
+gprof -b ./test gmon.out > gprof.test.log && rm -f gmon.out
