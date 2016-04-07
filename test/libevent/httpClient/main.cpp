@@ -529,8 +529,16 @@ int main(int argc, char **argv)
         rapidjson::Value payValue;
         payValue.SetString(passWord.c_str(), passWord.size());
 
+
+
         root.AddMember("login_passwd", loginValue, allocator);
         root.AddMember("pay_passwd",payValue,allocator);
+
+        root.AddMember("pay_passwdxx","你好",allocator);
+
+        rapidjson::Value loginValuexxxxx;
+        loginValue.SetString("你好", 6);
+        root.AddMember("pay_passwdxxxxx",loginValuexxxxx,allocator);
 
         //root.AddMember("terminal_no","43181666",allocator);
         //root.AddMember("timestamp","2016-03-02 14:54:09",allocator);
@@ -543,6 +551,8 @@ int main(int argc, char **argv)
 
 
         printf("****************Ins_Payment_Test done\n");
+
+        return 0;
 
         HttpClient_YPL httpClient111;
         //httpClient111.post("/portal/epaylinks/receive", "key", 3);
@@ -562,7 +572,7 @@ int main(int argc, char **argv)
    /// rsa_test();
     //base64_test();
 
-    //skp_rapidjson_test();
+    skp_rapidjson_test();
     //skp_rapidjson_test_2();
     //skp_rapidjson_test_3();
     //skp_rapidjson_test_4();

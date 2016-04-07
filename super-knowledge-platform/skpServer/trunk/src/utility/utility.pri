@@ -38,5 +38,6 @@ SOURCES += \
     ../../src/utility/skpBuffer.cpp \
     ../../src/utility/skpTcpStream.cpp \
     ../../src/utility/skpPipe.cpp \
-    ../../src/utility/skpTlv.cpp
+    ../../src/utility/skpTlv.cpp \
+    ../../src/utility/skpMallocPoolEx_test.cpp
 
